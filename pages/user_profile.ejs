@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="user_profile.css" />
+    <title>KDD Airline - Home</title>
+    <style>
+      #flash-message {
+        position: fixed;
+        top: 100px;
+        right: 10px;
+        z-index: 99999;
+      }
+
+      .alert-danger {
+        color: #f0162c;
+        background-color: #fdecea;
+        border: 1px solid #f5c6cb;
+
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <div class="nav__logo">
+        <a href="#" style="color: black;">
+          <img src="images/logo.png" alt="Logo" style="height: 100px; width: auto; "> KDD Airline
+        </a>
+      </div>
+      <ul class="nav__links">
+        <li class="link"><a href="/home">Home</a></li>
+        <li class="link"><a href="home_user.ejs/#review">Review</a></li>
+        <li class="link"><a href="home_user.ejs/#about">About</a></li>
+        <li class="link"><a href="/flight_search">Booking</a></li>
+        <li class="link"><a href="/booking_history">Booking history</a></li>
+        <li class="active"><a href="/user_profile" style="color: black;"><strong>My Profile</strong></a></li>
+        <li class="link"><a href="/user_logout">Log out</a></li>
+      </ul>
+    </nav>
+    <% if (message.success) { %>
+      <div id="flash-message" class="alert alert-success" role="alert">
+        <%= message.success %>
+      </div>
+      <% } else if (message.error) { %>
+        <div id="flash-message" class="alert alert-danger" role="alert">
+          <%= message.error %>
+        </div>
+        <% } %>
+          <section id="review" class="client">
+            <div id="review">
+              <h2>Edit User Profile</h2>
+              <form action="/user_profile/edit" method="post">
+                <div class="form__group">
+                  <div class="input__group">
+                    <input type="text" name="name" placeholder="Enter your new name" id="name"
+                      value="<%= userInput.name %>" maxlength="255">
+
+                  </div>
+                  <p>Name</p>
+                </div>
+                <div class="form__group">
+                  <div class="input__group">
+
+                    <input type="date" name="dob" placeholder="Enter your new date of birth" id="dob"
+                      value="<%= userInput.dob %>">
+                  </div>
+                  <p>Date of birth</p>
+                </div>
+
+                <div class="form__group">
+                  <div class="input__group">
+
+                    <input type="text" name="address" placeholder="Enter your new address" id="address" maxlength="255"
+                      value="<%= userInput.address %>">
+                  </div>
+                  <p>Address</p>
+                </div>
+
+                <div class="form__group">
+                  <div class="input__group">
+                    <input type="tel" name="phone_number" placeholder="Enter your new phone number" id="phone_number"
+                      maxlength="12" value="<%= userInput.phone_number %>">
+
+                  </div>
+                  <p>Phone Number</p>
+                </div>
+
+                <button type="submit" class="btn"><i class="ri-search-line"></i></button>
+              </form>
+              <br>
+              <br>
+              <h2>Change Password</h2>
+              <form action="/user_profile/password" method="post">
+
+                <div class="form__group">
+                  <div class="input__group">
+                    <input type="password" name="old_password" placeholder="Enter your old password" id="old_password"
+                      maxlength="255" value="<%= userInput.old_password %>">
+                  </div>
+                  <p>Old Password</p>
+                </div>
+                <div class="form__group">
+                  <div class="input__group">
+                    <input type="password" name="new_password" placeholder="Enter your new password" id="new_password"
+                      maxlength="255" value="<%= userInput.new_password %>">
+                  </div>
+                  <p>New Password</p>
+                </div>
+                <div class="form__group">
+                  <div class="input__group">
+                    <input type="password" name="confirm_password" placeholder="Enter your new password again"
+                      id="confirm_password" maxlength="255" value="<%= userInput.confirm_password %>">
+                  </div>
+                  <p>Old Password</p>
+                </div>
+
+
+
+                <button type="submit" class="btn"><i class="ri-search-line"></i></button>
+              </form>
+
+            </div>
+            <% if (typeof profile !=='undefined' && profile.length> 0) { %>
+
+              <table>
+                <h2>User Profile</h2>
+                <br>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Address</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% profile.forEach(profile=> { %>
+                    <tr>
+                      <td>
+                        <%= profile.name %>
+                      </td>
+                      <td>
+                        <%= profile.dob %>
+                      </td>
+
+                      <td>
+                        <%= profile.address %>
+                      </td>
+                      <td>
+                        <%= profile.phone_number %>
+                      </td>
+
+                      <td>
+                        <%= profile.email %>
+                      </td>
+                    </tr>
+                    <% }); %>
+
+                </tbody>
+              </table>
+              <% } else if(typeof profile !=='undefined' && profile.length===0) { %>
+                <h2>Profile Not Found</h2>
+                <% } %>
+
+                  <br>
+          </section>
+          <footer id="about" class="footer">
+            <div class="section__container footer__container">
+              <div class="footer__col">
+                <img src="images/logo.png" alt="Logo" style="height: 150px; width: auto;">
+                <h3>KDD Airline</h3>
+                <p>
+                  At KDD Airline, we go beyond flying; we create experiences. Our commitment to safety, comfort, and
+                  personalized service ensures that every journey with us is nothing short of extraordinary. Discover
+                  seamless travel from check-in to touchdown.
+                </p>
+                <p>
+                  Explore the world confidently, knowing that KDD Airline's modern fleet and dedicated crew prioritize
+                  your well-being. Immerse yourself in the elevated comfort of our cabins, where each detail is designed
+                  to enhance your travel experience.
+                </p>
+                <p>
+                  For inquiries, reservations, or personalized assistance, our friendly team is ready to assist. Contact
+                  us at <strong>
+                    <italic>kddairline@contact.us</italic>
+                  </strong> and let us tailor your travel journey. Choose KDD Airline – Elevating Travel, Redefining
+                  Journeys.
+                </p>
+              </div>
+            </div>
+            <div class="footer__bar">
+              Copyright © 2023 Killer Daylight Coop. All rights reserved.
+            </div>
+          </footer>
+
+          <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+          <script>
+            $(document).ready(function () {
+              $("#flash-message").delay(4000).fadeOut("slow");
+            }); 
+          </script>
+
+  </body>
+
+</html>

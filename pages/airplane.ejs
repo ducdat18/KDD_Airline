@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>GDC Airways</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Paytone+One" rel="stylesheet">
+    <link rel="stylesheet" href="admin/adminset.css">
+    <style>
+      #flash-message {
+        position: fixed;
+        top: 120px;
+        right: 10px;
+        z-index: 99999;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!--NavBar-->
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/home_admin" class="navbar-brand"> KDD AIRWAYS</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class=" nav navbar-nav">
+            <li><a href="home_admin"><strong>Home</strong></a></li>
+            <li><a href="/airport"><strong>Airport</strong></a></li>
+            <li class="active"><a href="#"><strong>Airplane</strong></a></li>
+            <li><a href="/route"><strong>Route</strong></a></li>
+            <li><a href="/schedule"><strong>Schedule</strong></a></li>
+            <li><a href="/employee_list"><strong>Employee</strong></a></li>
+            <li><a href="/staff"><strong>Staff</strong></a></li>
+            <li><a href="/sales"><strong>Sales</strong></a></li>
+            <li><a href="/revenue"><strong>Revenue</strong></a></li>
+            <li><a href="/admin_logout"><strong>Logout</strong></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <% if (message.success) { %>
+      <div id="flash-message" class="alert alert-success" role="alert">
+        <%= message.success %>
+      </div>
+      <% } else if (message.error) { %>
+        <div id="flash-message" class="alert alert-danger" role="alert">
+          <%= message.error %>
+        </div>
+        <% } %>
+          <div class="flex-container">
+            <div class="form-container">
+              <form action="/airplane" method="post">
+                <h2>Add Airplane</h2>
+                <input type="hidden" name="action" value="add">
+                <label for="aircraft_code">Code:</label>
+                <input type="text" id="aircraft_code" name="aircraftCode1" maxlength="5"
+                  placeholder="Enter an airplane code (e.g., AC123)" value="<%= userInput.aircraftCode1 %>"required>
+                <br>
+                <label for="addAircraftName">Name:</label>
+                <input type="text" id="addAircraftName" name="aircraftName" value="<%= userInput.aircraftName %>"
+                  required>
+                <br>
+                <label for="addCapacity">Capacity:</label>
+                <input type="number" id="addCapacity" name="capacity" value="<%= userInput.capacity %>" required>
+                <label for="status">Status:</label>
+                <select id="status" name="status1" value="<%= userInput.status1 %>" required>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+                <br>
+                <br>
+                <label for="mfdCom">Manufacturer:</label>
+                <select id="mfdCom" name="mfdCom" value="<%= userInput.mfdCom %>" required>
+                  <option value="Airbus">Airbus</option>
+                  <option value="Boeing">Boeing</option>
+                  <option value="Bombardier">Bombardier</option>
+                  <option value="Embraer">Embraer</option>
+                </select>
+                <br>
+                <br>
+                <label for="mfdDate">Manufactured date:</label>
+                <input type="date" id="mfdDate" name="mfdDate" value="<%= userInput.mfdDate %>" required>
+                <button type="submit">Add Airplane</button>
+
+              </form>
+              <br>
+              <br>
+              <form action="/airplane" method="post">
+                <h2>Update Airplane Status</h2>
+                <input type="hidden" name="action" value="update">
+                <label for="deleteAircraftCode">Code:</label>
+                <input type="text" id="deleteAircraftCode" name="aircraftCode2" maxlength="5"
+                  placeholder="Enter an airplane code (e.g., AC123)" value="<%= userInput.aircraftCode2 %>" required>
+            <select id="status" name="status2" value="<%= userInput.status2 %>" required>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+                <br>
+                <br>
+                <span style="color: red;">
+    NOTE: Aircraft can only be deactivated if there is no associated flight at the moment.!! Deactivating aircraft will cancel all upcoming flights in the future!!.
+  </span> 
+          <br>
+          <br>
+                <button type="submit" onclick="return confirm('Are you sure you want to update the status of this airplane?')">Update Airplane Status</button>
+              </form>
+        <br>
+              <form action="/airplane" method="post">
+                <h2>Delete Airplane</h2>
+                <input type="hidden" name="action" value="delete">
+                <label for="aircraftCode3">Aircraft Code:</label>
+                 <input type="text" id="deleteAircraftCode" name="aircraftCode3" maxlength="5"
+                  placeholder="Enter an airplane code (e.g., AC123)" value="<%= userInput.aircraftCode3 %>" required>
+    
+          <br>
+
+                <button type="submit"
+                  onclick="return confirm('Are you sure you want to delete this aircraft? All associated flight schedule and orders will also be deleted!!')">Delete
+                  Aircraft</button>
+                <br>
+              </form>
+
+            </div>
+            <div class="table-container">
+              <div class="content-container">
+                <table>
+                  <h2>Aircraft Information</h2>
+                  <br>
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Aircraft Code</th>
+                      <th>Aircraft Name</th>
+                      <th>Capacity</th>
+                      <th>Status</th>
+                      <th>Manufacturing company</th>
+                      <th>Manufacturing date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% aircraft.forEach((aircraft, index)=> { %>
+                      <tr>
+                        <td>
+                          <%= startIdx + index + 1 %>
+                        </td>
+                        <td>
+                          <%= aircraft.aircraft_code %>
+                        </td>
+                        <td>
+                          <%= aircraft.aircraft_name %>
+                        </td>
+                        <td>
+                          <%= aircraft.capacity %>
+                        </td>
+                        <td>
+                          <%= aircraft.status %>
+                        </td>
+                        <td>
+                          <%= aircraft.mfd_com %>
+                        </td>
+                        <td>
+                          <%= aircraft.mfd_date %>
+                        </td>
+                      </tr>
+                      <% }); %>
+                  </tbody>
+                </table>
+                <br>
+                <!-- Pagination links -->
+                <!-- <div class="pagination"> -->
+                <!--   <% for (let i=1; i <=pageCount; i++) { %> -->
+                <!--     <a href="?page=<%= i %>" <%=i===currentPage ? ' style="font-weight: bold;"' : '' %>><%= i %></a> -->
+                <!--     <% } %> -->
+                <!-- </div> -->
+                <div class="pagination">
+  <% if (currentPage > 1) { %>
+    <a href="?page=<%= currentPage - 1 %>"><- Prev</a>
+  <% } %>
+
+  <span><%= currentPage %></span>
+
+  <% if (currentPage < pageCount) { %>
+    <a href="?page=<%= currentPage + 1 %>">Next -></a>
+  <% } %>
+</div>
+
+              </div>
+            </div>
+          </div>
+          <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+          <script>
+            $(document).ready(function () {
+              $("#flash-message").delay(5000).fadeOut("slow");
+            }); 
+          </script>
+
+  </body>
+
+</html>

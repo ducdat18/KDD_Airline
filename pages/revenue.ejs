@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>GDC Airways</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Paytone+One" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="admin/adminset.css">
+  </head>
+
+  <body>
+
+    <!--NavBar-->
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/home_admin" class="navbar-brand"> KDD AIRWAYS</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="/home_admin"><strong>Home</strong></a></li>
+            <li><a href="/airport"><strong>Airport</strong></a></li>
+            <li><a href="/airplane"><strong>Airplane</strong></a></li>
+
+            <li><a href="/route"><strong>Route</strong></a></li>
+
+            <li><a href="/schedule"><strong>Schedule</strong></a></li>
+            <li><a href="/employee_list"><strong>Employee</strong></a></li>
+            <li><a href="/staff"><strong>Staff</strong></a></li>
+            <li><a href="/sales"><strong>Sales</strong></a></li>
+            <li class="active"><a href="#"><strong>Revenue</strong></a></li>
+            <li><a href="/admin_logout"><strong>Logout</strong></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="table-container">
+      <div class="content-container">
+               <table>
+            <h2>Revenue Statistics</h2>
+            <br>
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>General information</th>
+                </tr>
+            </thead>
+            <tbody>
+  <% insights.forEach(insight => { %>
+    <tr>
+      <td><%= insight.month %>/<%= insight.year %></td>
+      <td>
+        Total Revenue: $<%= insight.total_revenue %><br><br>
+        Number of flights: <%= insight.number_of_flights %><br><br>
+        Number of tickets sold: <%= insight.number_of_tickets %><br><br>
+        Most popular routes: <%= insight.most_popular_route %><br><br>
+        Least popular routes: <%= insight.least_popular_route %><br><br>
+      </td>
+    </tr>
+  <% }) %>
+</tbody>
+
+                    </table>        
+    <br>
+      </div>
+    </div>
+  </body>
+
+</html>
